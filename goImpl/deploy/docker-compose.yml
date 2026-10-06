@@ -1,0 +1,9 @@
+services:
+  signaling:
+    build:
+      context: ..
+      dockerfile: deploy/signaling.Dockerfile
+    environment:
+      SIGNALING_ADDR: ":8080"
+    ports:
+      - "8080:8080"
