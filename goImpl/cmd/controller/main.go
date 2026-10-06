@@ -20,7 +20,10 @@ import (
 func main() {
     server := flag.String("server", "ws://localhost:8080/ws", "signaling WebSocket endpoint")
     session := flag.String("session", "", "shared session token")
-    stun := flag.String("stun", "stun:stun.cloudflare.com:3478", "STUN URL")
+    stun := flag.String("stun", "stun:stun.cloudflare.com:3478", "STUN URL; empty disables STUN")
+    turn := flag.String("turn", "", "TURN URL; optional")
+    turnUser := flag.String("turn-user", "", "TURN username; optional")
+    turnCredential := flag.String("turn-credential", "", "TURN credential; optional")
     flag.Parse()
 
     if *session == "" {
@@ -37,7 +40,14 @@ func main() {
 
     config := webrtc.Configuration{}
     if *stun != "" {
-        config.ICEServers = []webrtc.ICEServer{{URLs: []string{*stun}}}
+        config.ICEServers = append(config.ICEServers, webrtc.ICEServer{URLs: []string{*stun}})
+    }
+    if *turn != "" {
+        config.ICEServers = append(config.ICEServers, webrtc.ICEServer{
+            URLs:       []string{*turn},
+            Username:   *turnUser,
+            Credential: *turnCredential,
+        })
     }
 
     pc, err := webrtc.NewPeerConnection(config)
