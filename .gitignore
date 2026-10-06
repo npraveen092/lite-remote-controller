@@ -19,3 +19,4 @@ Thumbs.db
 # Local configuration
 .env
 .env.*
+!goImpl/deploy/.env.example
