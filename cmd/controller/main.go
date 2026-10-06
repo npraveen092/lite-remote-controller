@@ -6,6 +6,7 @@ import (
     "flag"
     "fmt"
     "log"
+    "net/http"
     "os"
     "strings"
     "time"
@@ -19,15 +20,16 @@ import (
 func main() {
     server := flag.String("server", "ws://localhost:8080/ws", "signaling WebSocket endpoint")
     session := flag.String("session", "", "shared session token")
-    stun := flag.String("stun", "", "STUN URL, e.g. stun:stun.example.com:3478")
+    stun := flag.String("stun", "stun:stun.cloudflare.com:3478", "STUN URL")
     flag.Parse()
 
     if *session == "" {
         log.Fatal("--session is required")
     }
 
-    signalingURL := fmt.Sprintf("%s?session=%s&role=controller", *server, *session)
-    signalConn, _, err := websocket.DefaultDialer.Dial(signalingURL, nil)
+    signalingURL := fmt.Sprintf("%s?role=controller", *server)
+    headers := http.Header{"Authorization": []string{"Bearer " + *session}}
+    signalConn, _, err := websocket.DefaultDialer.Dial(signalingURL, headers)
     if err != nil {
         log.Fatalf("signaling connection failed: %v", err)
     }
