@@ -1,45 +1,40 @@
 # Roadmap
 
-## Phase 1 — Foundation
+## Phase 1 — LAN prototype
+- [x] Manual Windows agent
+- [x] Controller CLI
+- [x] Basic remote commands
+- [x] Screenshot prototype from the original Python milestone
 
-- [ ] Project structure
-- [ ] Protocol model
-- [ ] Session lifecycle
-- [ ] Logging
-- [ ] Basic tests
+## Phase 2 — Internet WebRTC foundation
+- [x] Go/Pion transport
+- [x] Public signaling service
+- [x] Session authentication
+- [x] STUN-based ICE
+- [x] DataChannel control path
+- [ ] TURN fallback
 
-## Phase 2 — Remote shell
+## Phase 3 — Remote screen
+- [ ] Windows desktop capture
+- [ ] JPEG prototype
+- [ ] WebRTC video track
+- [ ] Adaptive bitrate / frame rate
+- [ ] Multi-monitor support
 
-- [ ] Command request
-- [ ] Command response
-- [ ] Timeouts
-- [ ] Error handling
-
-## Phase 3 — Screen
-
-- [ ] Single screenshot
-- [ ] Region/delta experiments
-- [ ] Continuous streaming prototype
-- [ ] Compression benchmark
-
-## Phase 4 — Input
-
-- [ ] Mouse movement
+## Phase 4 — Remote input
+- [ ] Mouse move
 - [ ] Mouse buttons
 - [ ] Keyboard events
-- [ ] Explicit session-state checks
+- [ ] Input coordinate scaling
+- [ ] Session state checks
 
-## Phase 5 — Internet
-
-- [ ] TLS
-- [ ] Authentication
-- [ ] Signaling
-- [ ] NAT traversal / relay
-- [ ] Reconnect
-
-## Phase 6 — Packaging
-
-- [ ] Windows build
-- [ ] macOS controller build
-- [ ] Versioning
-- [ ] CI
+## Phase 5 — Product hardening
+- [ ] TLS/WSS deployment
+- [ ] Session expiry
+- [ ] Device identity
+- [ ] Audit events
+- [ ] Reconnection
+- [ ] File transfer
+- [ ] Clipboard
+- [ ] Windows packaging
+- [ ] macOS controller application
