@@ -1,4 +1,3 @@
-# Replace with your real hostname before deployment.
-{SIGNALING_DOMAIN_PLACEHOLDER} {
+{$SIGNALING_DOMAIN} {
     reverse_proxy signaling:8080
 }
