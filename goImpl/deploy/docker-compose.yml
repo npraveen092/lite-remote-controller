@@ -20,22 +20,17 @@ services:
       - "--lt-cred-mech"
       - "--realm=${TURN_REALM}"
       - "--user=${TURN_USERNAME}:${TURN_PASSWORD}"
+      - "--external-ip=${TURN_EXTERNAL_IP}"
       - "--fingerprint"
       - "--no-multicast-peers"
       - "--no-cli"
       - "--listening-port=3478"
       - "--min-port=${TURN_MIN_PORT:-49160}"
       - "--max-port=${TURN_MAX_PORT:-49260}"
-    environment:
-      TURN_REALM: ${TURN_REALM}
-      TURN_USERNAME: ${TURN_USERNAME}
-      TURN_PASSWORD: ${TURN_PASSWORD}
     ports:
       - "3478:3478/tcp"
       - "3478:3478/udp"
       - "${TURN_MIN_PORT:-49160}-${TURN_MAX_PORT:-49260}:${TURN_MIN_PORT:-49160}-${TURN_MAX_PORT:-49260}/udp"
-    networks:
-      - lrc
 
   caddy:
     image: caddy:2.10-alpine
