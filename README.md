@@ -1,23 +1,26 @@
 # Lite Remote Controller
 
-A lightweight, educational remote-access tool for connecting to a Windows machine over the internet.
+A lightweight educational remote-access project for connecting to a Windows machine over the internet.
 
-## Current architecture
+## Implementations
+
+- pythonImpl/ — original Python WebSocket prototype with basic remote commands and on-demand screenshots.
+- goImpl/ — current implementation using native Go + Pion WebRTC for internet-oriented connectivity.
+
+The Go implementation is the active path for the remote-access product.
+
+## Current Go architecture
 
 The project is P2P-first:
-
 - A small public signaling server exchanges WebRTC SDP.
 - The controller and Windows agent establish a WebRTC PeerConnection.
 - A WebRTC DataChannel carries control messages.
 - STUN helps establish direct connectivity.
 - TURN will be added as a relay fallback for restrictive networks.
 
-Pion is used for the native WebRTC layer. Pion is a pure-Go WebRTC implementation. https://github.com/pion/webrtc
-
 ## Current milestone
 
-The repository currently supports:
-
+The Go implementation currently supports:
 - Internet-capable signaling
 - Shared session authentication
 - WebRTC DataChannel
@@ -28,7 +31,7 @@ The repository currently supports:
 
 ## Planned remote-control features
 
-1. Screen capture
+1. Windows screen capture
 2. Live screen streaming over a WebRTC video track
 3. Mouse and keyboard events over DataChannel
 4. TURN fallback
@@ -38,23 +41,24 @@ The repository currently supports:
 
 ## Quick test
 
-Start the signaling service:
+Run the commands from goImpl/.
 
+Start signaling:
+    cd goImpl
     go run ./cmd/signaling
 
-Create a session token:
-
+Create a session:
     curl http://localhost:8080/session
 
 Start the Windows agent:
-
+    cd goImpl
     go run .\cmd\agent --server ws://SERVER:8080/ws --session <SESSION>
 
 Start the controller:
-
+    cd goImpl
     go run ./cmd/controller --server ws://SERVER:8080/ws --session <SESSION>
 
-The default STUN server is stun.cloudflare.com:3478.
+The default STUN server is stun:stun.cloudflare.com:3478.
 
 For public deployment, put signaling behind TLS and use wss://.
 
