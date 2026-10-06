@@ -7,6 +7,7 @@ import (
     "log"
     "net/http"
     "os"
+    "strings"
     "sync"
 
     "github.com/gorilla/websocket"
@@ -84,8 +85,14 @@ func sendJSON(p *peer, payload any) error {
 }
 
 func handleWS(w http.ResponseWriter, r *http.Request) {
-    session := r.URL.Query().Get("session")
     role := r.URL.Query().Get("role")
+    auth := r.Header.Get("Authorization")
+    const prefix = "Bearer "
+    if !strings.HasPrefix(auth, prefix) {
+        http.Error(w, "authorization required", http.StatusUnauthorized)
+        return
+    }
+    session := strings.TrimSpace(strings.TrimPrefix(auth, prefix))
 
     if session == "" || (role != roleAgent && role != roleController) {
         http.Error(w, "session and role are required", http.StatusBadRequest)
